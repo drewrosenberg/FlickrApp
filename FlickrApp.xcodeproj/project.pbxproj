@@ -15,24 +15,25 @@
 		468B95631547D0C800920A81 /* FlickrAppAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 468B95621547D0C800920A81 /* FlickrAppAppDelegate.m */; };
 		468B95661547D0C800920A81 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 468B95641547D0C800920A81 /* MainStoryboard_iPhone.storyboard */; };
 		468B95691547D0C800920A81 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 468B95671547D0C800920A81 /* MainStoryboard_iPad.storyboard */; };
-		468B956C1547D0C800920A81 /* FlickrAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 468B956B1547D0C800920A81 /* FlickrAppViewController.m */; };
+		468B95741547D11200920A81 /* FlickrFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 468B95731547D11200920A81 /* FlickrFetcher.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		463869D01547D24E00C6B13F /* FlickrAPIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrAPIKey.h; sourceTree = "<group>"; };
 		468B954E1547D0C800920A81 /* FlickrApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		468B95521547D0C800920A81 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		468B95541547D0C800920A81 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		468B95561547D0C800920A81 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		468B955A1547D0C800920A81 /* FlickrApp-Info.plist */ = {isa = PBXFileReference; path = "FlickrApp-Info.plist"; sourceTree = "<group>"; };
+		468B955A1547D0C800920A81 /* FlickrApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FlickrApp-Info.plist"; sourceTree = "<group>"; };
 		468B955C1547D0C800920A81 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		468B955E1547D0C800920A81 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		468B95601547D0C800920A81 /* FlickrApp-Prefix.pch */ = {isa = PBXFileReference; path = "FlickrApp-Prefix.pch"; sourceTree = "<group>"; };
-		468B95611547D0C800920A81 /* FlickrAppAppDelegate.h */ = {isa = PBXFileReference; path = FlickrAppAppDelegate.h; sourceTree = "<group>"; };
+		468B95601547D0C800920A81 /* FlickrApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FlickrApp-Prefix.pch"; sourceTree = "<group>"; };
+		468B95611547D0C800920A81 /* FlickrAppAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrAppAppDelegate.h; sourceTree = "<group>"; };
 		468B95621547D0C800920A81 /* FlickrAppAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrAppAppDelegate.m; sourceTree = "<group>"; };
 		468B95651547D0C800920A81 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		468B95681547D0C800920A81 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		468B956A1547D0C800920A81 /* FlickrAppViewController.h */ = {isa = PBXFileReference; path = FlickrAppViewController.h; sourceTree = "<group>"; };
-		468B956B1547D0C800920A81 /* FlickrAppViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrAppViewController.m; sourceTree = "<group>"; };
+		468B95721547D11200920A81 /* FlickrFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrFetcher.h; sourceTree = "<group>"; };
+		468B95731547D11200920A81 /* FlickrFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrFetcher.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,12 +80,8 @@
 		468B95581547D0C800920A81 /* FlickrApp */ = {
 			isa = PBXGroup;
 			children = (
-				468B95611547D0C800920A81 /* FlickrAppAppDelegate.h */,
-				468B95621547D0C800920A81 /* FlickrAppAppDelegate.m */,
 				468B95641547D0C800920A81 /* MainStoryboard_iPhone.storyboard */,
 				468B95671547D0C800920A81 /* MainStoryboard_iPad.storyboard */,
-				468B956A1547D0C800920A81 /* FlickrAppViewController.h */,
-				468B956B1547D0C800920A81 /* FlickrAppViewController.m */,
 				468B95591547D0C800920A81 /* Supporting Files */,
 			);
 			path = FlickrApp;
@@ -93,6 +90,11 @@
 		468B95591547D0C800920A81 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				468B95721547D11200920A81 /* FlickrFetcher.h */,
+				468B95731547D11200920A81 /* FlickrFetcher.m */,
+				463869D01547D24E00C6B13F /* FlickrAPIKey.h */,
+				468B95611547D0C800920A81 /* FlickrAppAppDelegate.h */,
+				468B95621547D0C800920A81 /* FlickrAppAppDelegate.m */,
 				468B955A1547D0C800920A81 /* FlickrApp-Info.plist */,
 				468B955B1547D0C800920A81 /* InfoPlist.strings */,
 				468B955E1547D0C800920A81 /* main.m */,
@@ -167,7 +169,7 @@
 			files = (
 				468B955F1547D0C800920A81 /* main.m in Sources */,
 				468B95631547D0C800920A81 /* FlickrAppAppDelegate.m in Sources */,
-				468B956C1547D0C800920A81 /* FlickrAppViewController.m in Sources */,
+				468B95741547D11200920A81 /* FlickrFetcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +291,7 @@
 				468B95711547D0C800920A81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
