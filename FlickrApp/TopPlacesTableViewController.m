@@ -7,12 +7,16 @@
 //
 
 #import "TopPlacesTableViewController.h"
+#import "FlickrFetcher.h"
+#import "PhotosFromLocationTableViewController.h"
 
 @interface TopPlacesTableViewController ()
-
+@property (nonatomic, strong) NSArray * topPlaces;
 @end
 
 @implementation TopPlacesTableViewController
+
+@synthesize topPlaces = _topPlaces;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -23,10 +27,53 @@
     return self;
 }
 
+
+-( NSArray *)sortFlickrRecordsByField:(id)field{
+
+    NSMutableArray * sortedTopPlaces = [self.topPlaces mutableCopy];
+        
+    [sortedTopPlaces sortUsingDescriptors:
+        [NSArray arrayWithObject:[[NSSortDescriptor alloc]
+                                initWithKey:field
+                                  ascending:YES]]];
+    
+    return sortedTopPlaces;
+}
+
+-(void) awakeFromNib{
+    self.title = @"Top Places";
+}
+- (IBAction)refresh:(id)sender {
+    [self.tableView reloadData];
+    
+    UIActivityIndicatorView * spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActionSheetStyleBlackTranslucent];
+    [spinner startAnimating];
+    
+    UIBarButtonItem * refreshButton = self.navigationItem.rightBarButtonItem;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    
+    dispatch_queue_t downloadQueue =dispatch_queue_create("flickr downloader", NULL);
+    dispatch_async(downloadQueue, ^{
+        self.topPlaces = [FlickrFetcher topPlaces];
+        NSLog(@"topPlaces = %@", self.topPlaces);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            //sort alphabetically by place
+            self.topPlaces = [self sortFlickrRecordsByField:FLICKR_PLACE_NAME];
+            self.navigationItem.rightBarButtonItem = refreshButton;
+            [self.tableView reloadData];
+        });
+    });
+    
+    dispatch_release(downloadQueue);
+
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    self.tabBarItem.title = @"Top Places";
+    [self refresh:self];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -43,85 +90,46 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
-#pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
+    NSIndexPath * indexPath = [self.tableView indexPathForCell:sender];
+    [segue.destinationViewController setLocation:[self.topPlaces objectAtIndex:indexPath.row ]];
 }
+
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [self.topPlaces count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"Top Places Cell Identifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     // Configure the cell...
+    NSDictionary * photoDetails = [self.topPlaces objectAtIndex:indexPath.row];
+    NSString * location = [photoDetails objectForKey:FLICKR_PLACE_NAME];
     
-    return cell;
+    cell.textLabel.text = [location substringToIndex:[location rangeOfString:@","].location];
+    cell.detailTextLabel.text = [location substringFromIndex:[location rangeOfString:@","].location+1];
+    
+     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [self performSegueWithIdentifier:@"Get Recent Photos for Location" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
+
 }
 
 @end

@@ -24,6 +24,7 @@ typedef enum {
 @interface FlickrFetcher : NSObject
 
 + (NSArray *)topPlaces;
++ (NSArray *)recentGeoreferencedPhotos;
 + (NSArray *)photosInPlace:(NSDictionary *)place maxResults:(int)maxResults;
 + (NSURL *)urlForPhoto:(NSDictionary *)photo format:(FlickrPhotoFormat)format;
 
