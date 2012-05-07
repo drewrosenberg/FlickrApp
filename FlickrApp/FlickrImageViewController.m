@@ -31,17 +31,9 @@
 {
     return self.imageView;
 }
-- (IBAction)plus:(id)sender {
-    self.scrollView.zoomScale = self.scrollView.zoomScale*10;
-}
-- (IBAction)minus:(id)sender {
-    self.scrollView.zoomScale = self.scrollView.zoomScale*10;
-}
 
 -(void)drawImage{
     self.scrollView.delegate = self;
-    [self.scrollView setContentMode:UIViewContentModeScaleAspectFit];
-    [self.imageView sizeToFit];
     self.imageView.image = self.image;
     self.imageView.frame = CGRectMake(0, 0, self.image.size.width, self.image.size.height);
     
@@ -50,14 +42,13 @@
     CGSize imageSize = self.image.size;
     CGSize viewSize = self.view.bounds.size;
 
-    self.scrollView.minimumZoomScale = viewSize.width/(4*imageSize.width);
-//        MIN(viewSize.height/imageSize.height, 
-  //          viewSize.width/imageSize.width);
+    self.scrollView.minimumZoomScale =
+        MIN(viewSize.height/imageSize.height, 
+            viewSize.width/imageSize.width);
     
     self.scrollView.maximumZoomScale = 6.0;
     
-    self.scrollView.zoomScale = self.scrollView.minimumZoomScale;
-    //MAX( viewSize.height/imageSize.height, viewSize.width/imageSize.width);
+    self.scrollView.zoomScale = MAX( viewSize.height/imageSize.height, viewSize.width/imageSize.width);
     NSLog(@"zoomscale = %f", self.scrollView.zoomScale);
 
 
@@ -78,6 +69,8 @@
     UIActivityIndicatorView * spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActionSheetStyleBlackTranslucent];
     [spinner startAnimating];
     
+    UIBarButtonItem * savedButton = self.navigationItem.rightBarButtonItem;
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
     
     dispatch_queue_t imageDownloadQueue = dispatch_queue_create("image downloader", NULL);
@@ -94,7 +87,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSLog(@"imageURL in MainQueue = %@",imageURL );
-            self.navigationItem.rightBarButtonItem = nil;
+            self.navigationItem.rightBarButtonItem = savedButton;
 
             self.image = [UIImage imageWithData:imageData];
 
