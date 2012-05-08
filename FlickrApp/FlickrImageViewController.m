@@ -34,21 +34,24 @@
 
 -(void)drawImage{
     self.scrollView.delegate = self;
+    self.splitViewController.delegate = self;
     self.imageView.image = self.image;
-    self.imageView.frame = CGRectMake(0, 0, self.image.size.width, self.image.size.height);
     
-    self.scrollView.contentSize = self.image.size;
     
     CGSize imageSize = self.image.size;
     CGSize viewSize = self.view.bounds.size;
 
+    self.scrollView.zoomScale = 1;//MAX(viewSize.height/imageSize.height, viewSize.width/imageSize.width);
+    self.scrollView.contentSize = self.imageView.image.size;
+    self.imageView.frame = CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
+
+
     self.scrollView.minimumZoomScale =
-        MIN(viewSize.height/imageSize.height, 
-            viewSize.width/imageSize.width);
+    MIN(viewSize.height/imageSize.height, 
+        viewSize.width/imageSize.width);
     
     self.scrollView.maximumZoomScale = 6.0;
-    
-    self.scrollView.zoomScale = MAX( viewSize.height/imageSize.height, viewSize.width/imageSize.width);
+
     NSLog(@"zoomscale = %f", self.scrollView.zoomScale);
 
 
@@ -61,6 +64,8 @@
     NSLog(@"zoomscale       = %f", self.scrollView.zoomScale);
     NSLog(@"MaxZoom         = %f", self.scrollView.maximumZoomScale);
     NSLog(@"======");
+    self.scrollView.zoomScale = MAX(viewSize.height/imageSize.height, viewSize.width/imageSize.width);
+
     [self.view setNeedsDisplay];
 }
 
@@ -99,7 +104,6 @@
 
 -(void) awakeFromNib{
     [super awakeFromNib];
-    self.splitViewController.delegate = self;
 }
 
 -(id <splitViewBarButtonItemPresenter> )splitViewBarButtonItemPresenter{
@@ -154,6 +158,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.splitViewController.delegate = self;
     [self refreshView];
 }
 

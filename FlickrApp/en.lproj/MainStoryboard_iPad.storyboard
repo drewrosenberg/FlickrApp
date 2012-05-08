@@ -142,6 +142,42 @@
             </objects>
             <point key="canvasLocation" x="770" y="-868"/>
         </scene>
+        <!--Flickr Image View Controller-->
+        <scene sceneID="MDa-kJ-vEI">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XtB-62-Ane" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="Z0g-kr-Y9Y" customClass="FlickrImageViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wtJ-Rq-BUo">
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.10000000000000001" maximumZoomScale="10" id="wda-pw-QAI">
+                                <rect key="frame" x="0.0" y="44" width="768" height="960"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="VqR-Pf-bP3">
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                </subviews>
+                            </scrollView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="2WZ-Uj-Y1i">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items/>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="VqR-Pf-bP3" id="DWa-eV-ISl"/>
+                        <outlet property="scrollView" destination="wda-pw-QAI" id="k52-mf-i0Z"/>
+                        <outlet property="view" destination="VqR-Pf-bP3" id="ky9-1T-WTZ"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="-537" y="93"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="4kY-Jd-BMY">
             <objects>
@@ -182,75 +218,13 @@
                     <toolbarItems/>
                     <connections>
                         <segue destination="NdB-av-I7Y" kind="relationship" relationship="masterViewController" id="Hg2-ZN-QQ0"/>
-                        <segue destination="fIb-v2-4pD" kind="relationship" relationship="detailViewController" id="k6b-lx-W5S"/>
+                        <segue destination="Z0g-kr-Y9Y" kind="relationship" relationship="detailViewController" id="fGC-te-rGj"/>
                     </connections>
                 </splitViewController>
             </objects>
             <point key="canvasLocation" x="-1509" y="-808"/>
         </scene>
-        <!--Flickr Image View Controller-->
-        <scene sceneID="a1b-dn-L4Y">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CzU-i6-iIg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="fIb-v2-4pD" customClass="FlickrImageViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="zeV-4j-Req">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="redraw" minimumZoomScale="0.20000000000000001" maximumZoomScale="5" id="bfE-Z8-U8v">
-                                <rect key="frame" x="0.0" y="44" width="768" height="960"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="redraw" id="oKy-gL-poq">
-                                        <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    </imageView>
-                                </subviews>
-                            </scrollView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="o9Z-yl-2Xa">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items/>
-                            </toolbar>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="AgW-NF-c1v"/>
-                    <connections>
-                        <outlet property="imageView" destination="oKy-gL-poq" id="5lh-4H-bUf"/>
-                        <outlet property="scrollView" destination="bfE-Z8-U8v" id="xzj-Jn-MxA"/>
-                        <outlet property="view" destination="oKy-gL-poq" id="yKc-gV-jmu"/>
-                    </connections>
-                </viewController>
-            </objects>
-            <point key="canvasLocation" x="-479" y="211"/>
-        </scene>
     </scenes>
-    <classes>
-        <class className="FlickrImageViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrImageViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="PhotoListTableController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoListTableController.h"/>
-            <relationships>
-                <relationship kind="action" name="refresh:"/>
-                <relationship kind="outlet" name="refreshButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="PhotosFromLocationTableViewController" superclassName="PhotoListTableController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotosFromLocationTableViewController.h"/>
-        </class>
-        <class className="RecentPhotosTableViewController" superclassName="PhotoListTableController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentPhotosTableViewController.h"/>
-        </class>
-        <class className="TopPlacesTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TopPlacesTableViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
