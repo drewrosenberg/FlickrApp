@@ -24,6 +24,12 @@
 
 
 
+-(void)setPhotoList:(NSArray *)photoList{
+    if (_photoList != photoList) {
+        _photoList = photoList;
+        if (self.tableView.window) [self.tableView reloadData];
+    }
+}
 
 - (void) updatePhotosAndTitle{
     self.title = @"Placeholder";
@@ -32,14 +38,16 @@
 
 - (IBAction)refresh:(id)sender {
  
-    UIActivityIndicatorView * spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActionSheetStyleBlackTranslucent];
-    [spinner startAnimating];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
-    
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
     
     dispatch_async(downloadQueue, ^{  
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIActivityIndicatorView * spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActionSheetStyleBlackTranslucent];
+            [spinner startAnimating];
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+        });
+        
+        
         [self updatePhotosAndTitle];
         dispatch_async(dispatch_get_main_queue(), ^{
             //NSLog(@"photos list =%@", self.photoList);
@@ -50,21 +58,8 @@
     dispatch_release(downloadQueue);
 }
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
--(void)setPhotoList:(NSArray *)photoList{
-    if (_photoList != photoList) {
-        _photoList = photoList;
-        if (self.tableView.window) [self.tableView reloadData];
-    }
-}
+#pragma mark - viewController methods
 
 -(void) awakeFromNib{
     [super awakeFromNib];
@@ -127,27 +122,44 @@
 }
 
 
-#pragma mark - Table view delegate
-
 -(void) addToUserDefaults:( NSDictionary*)photoSelection{
     NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
     NSMutableArray * mutableRecentPhotos = [[userDefaults objectForKey:RECENT_SELECTIONS_KEY] mutableCopy];
     
     if (!mutableRecentPhotos) mutableRecentPhotos = [NSMutableArray array];
-        
+    
     if (![mutableRecentPhotos containsObject:photoSelection]){
         [mutableRecentPhotos addObject:photoSelection];
-    
+        
         if (mutableRecentPhotos.count > USER_DEFAULTS_MAX_PHOTOS){
             [mutableRecentPhotos removeObjectAtIndex:0]; // remove the oldest
         }
-
+        
         
         [userDefaults setObject:mutableRecentPhotos forKey:RECENT_SELECTIONS_KEY];
         //NSLog(@"past selections: %@\n",[[NSUserDefaults standardUserDefaults] objectForKey:RECENT_SELECTIONS_KEY]);
         [userDefaults synchronize];
     }
 }
+
+-(void) removeFromUserDefaults: (NSDictionary*)photoSelection{
+    //make mutable copy of recent photos list in user defaults
+    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray * mutableRecentPhotos = [[userDefaults objectForKey:RECENT_SELECTIONS_KEY] mutableCopy];
+    
+    //remove the photo from the mutable copy
+    [mutableRecentPhotos removeObject:photoSelection];
+
+    //write the new photo list back to user defaults
+    [userDefaults setObject:mutableRecentPhotos forKey:RECENT_SELECTIONS_KEY];
+
+    //synchronize user defaults
+    [userDefaults synchronize];
+}
+
+
+#pragma mark - Table view delegate
+
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     NSIndexPath * indexPath = [self.tableView indexPathForCell:sender];

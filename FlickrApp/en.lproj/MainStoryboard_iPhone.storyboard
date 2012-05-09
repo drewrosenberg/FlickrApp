@@ -84,23 +84,34 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.02" maximumZoomScale="5" id="inc-a7-BMP">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" minimumZoomScale="0.02" maximumZoomScale="5" id="inc-a7-BMP">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="FeD-cl-UWc">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="FeD-cl-UWc">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                     </imageView>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" id="DtN-O5-65Z">
+                                        <rect key="frame" x="150" y="174" width="20" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </activityIndicatorView>
                                 </subviews>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Zgq-CA-LeR"/>
+                    <navigationItem key="navigationItem" id="Zgq-CA-LeR">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="fes-2r-2O2">
+                            <connections>
+                                <action selector="refreshView:" destination="dKe-Wy-6G4" id="rgP-H2-vZJ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="imageView" destination="FeD-cl-UWc" id="puz-f0-aK8"/>
                         <outlet property="scrollView" destination="inc-a7-BMP" id="NwM-XQ-1oV"/>
+                        <outlet property="spinner" destination="DtN-O5-65Z" id="ccu-Kj-e27"/>
                     </connections>
                 </viewController>
             </objects>
@@ -263,6 +274,8 @@
             <relationships>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>
         </class>
         <class className="PhotoListTableController" superclassName="UITableViewController">

@@ -21,6 +21,7 @@
 
 -(void) updatePhotosAndTitle;
 -(IBAction)refresh:(id)sender;
+-(void) removeFromUserDefaults: (NSDictionary*)photoSelection;
 
 
 @end

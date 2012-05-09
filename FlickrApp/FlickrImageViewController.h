@@ -13,12 +13,6 @@
 @end
 
 
-@interface FlickrImageViewController : UIViewController <UIScrollViewDelegate, UISplitViewControllerDelegate, splitViewBarButtonItemPresenter>
-
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-
+@interface FlickrImageViewController : UIViewController 
 @property (nonatomic, weak) id imageRecord;
-
-
 @end

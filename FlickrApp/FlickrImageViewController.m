@@ -7,54 +7,85 @@
 //
 
 #import "FlickrImageViewController.h"
-#import "PhotoListTableController.h"
 #import "FlickrFetcher.h"
 
-@interface FlickrImageViewController ()
-@property (nonatomic, strong) UIImage * image;
+@interface FlickrImageViewController () 
+                    <UIScrollViewDelegate, 
+                    UISplitViewControllerDelegate, 
+                    splitViewBarButtonItemPresenter>
+
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+
+@property (nonatomic) BOOL spinnerStatus; //yes is spinning, no is not spinning
+@property (weak, nonatomic) IBOutlet UILabel *toolBarTitle;
+
 @end
 
 @implementation FlickrImageViewController
+@synthesize toolBarTitle = _toolBarTitle;
+
 @synthesize imageView = _imageView;
 @synthesize scrollView = _scrollView;
+@synthesize toolbar = _toolbar;
+@synthesize spinner = _spinner;
 @synthesize imageRecord = _imageRecord;
+@synthesize spinnerStatus = _spinnerStatus;
 @synthesize splitViewBarButtonItem = _splitViewBarButtonItem;
-@synthesize image = _image;
 
+#pragma mark - custom setters
 -(void)setImageRecord:(id)imageRecord{
     if (imageRecord != _imageRecord) {
         _imageRecord = imageRecord;
-        [self refreshView];
+        [self refreshView:self];
     }
 }
--(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
-{
-    return self.imageView;
+
+-(void)setTitle:(NSString *)title{
+    [super setTitle:title];
+    self.toolBarTitle.text = title;
 }
 
+-(void)setSpinnerStatus:(BOOL)spinnerStatus{
+    if (spinnerStatus){
+        [self.spinner startAnimating]; 
+    }else {
+        [self.spinner stopAnimating];
+    }
+    _spinnerStatus = spinnerStatus;
+}
+
+
+# pragma mark - FlickrImageViewController methods
+
 -(void)drawImage{
-    self.scrollView.delegate = self;
-    self.splitViewController.delegate = self;
-    self.imageView.image = self.image;
-    
-    
-    CGSize imageSize = self.image.size;
-    CGSize viewSize = self.view.bounds.size;
 
-    self.scrollView.zoomScale = 1;//MAX(viewSize.height/imageSize.height, viewSize.width/imageSize.width);
-    self.scrollView.contentSize = self.imageView.image.size;
+
+    //reset zoom to 1
+    self.scrollView.zoomScale = 1;
+
+    //set imageView frame
     self.imageView.frame = CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
+    
+    //set contentsize
+    self.scrollView.contentSize = self.imageView.image.size;
 
-
+    //get size of image and view
+    CGSize imageSize = self.imageView.image.size;
+    CGSize viewSize = self.scrollView.bounds.size;
+    
+    //set default zoom scale
+    self.scrollView.zoomScale = MAX(viewSize.height/imageSize.height, viewSize.width/imageSize.width);   
+    
+    //set minimum zoom scale
     self.scrollView.minimumZoomScale =
     MIN(viewSize.height/imageSize.height, 
         viewSize.width/imageSize.width);
     
-    self.scrollView.maximumZoomScale = 6.0;
-
-    NSLog(@"zoomscale = %f", self.scrollView.zoomScale);
-
-
+    //log info
     NSLog(@"======");
     NSLog(@"imageWidth      = %f", imageSize.width);
     NSLog(@"imageViewWidth  = %f", viewSize.width);
@@ -64,19 +95,12 @@
     NSLog(@"zoomscale       = %f", self.scrollView.zoomScale);
     NSLog(@"MaxZoom         = %f", self.scrollView.maximumZoomScale);
     NSLog(@"======");
-    self.scrollView.zoomScale = MAX(viewSize.height/imageSize.height, viewSize.width/imageSize.width);
 
-    [self.view setNeedsDisplay];
 }
-
--(void)refreshView{
-    
-    UIActivityIndicatorView * spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActionSheetStyleBlackTranslucent];
-    [spinner startAnimating];
-    
-    UIBarButtonItem * savedButton = self.navigationItem.rightBarButtonItem;
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+- (IBAction)refreshView:(id)sender {
+    //turn spinner on and clear image
+    self.spinnerStatus = YES;
+    self.imageView.image = nil;
     
     dispatch_queue_t imageDownloadQueue = dispatch_queue_create("image downloader", NULL);
     dispatch_async(imageDownloadQueue, ^{  
@@ -92,19 +116,61 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSLog(@"imageURL in MainQueue = %@",imageURL );
-            self.navigationItem.rightBarButtonItem = savedButton;
+            
+            //turn spinner off
+            self.spinnerStatus = NO;
 
-            self.image = [UIImage imageWithData:imageData];
+            //save image
+            self.imageView.image = [UIImage imageWithData:imageData];
 
-            if (self.image) [self drawImage];
+            //draw the image
+            [self drawImage];
         });
     });
     dispatch_release(imageDownloadQueue);
 }
 
--(void) awakeFromNib{
-    [super awakeFromNib];
+#pragma mark - viewController methods
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+	//set as the scrollview delegate
+    self.scrollView.delegate = self;
+    
+    //set as the splitViewController's delegate
+    self.splitViewController.delegate = self;
 }
+
+-(void) viewWillAppear:(BOOL)animated{
+   // [super viewWillAppear:YES];
+    [self refreshView:self];
+}
+
+-(void) viewWillLayoutSubviews{
+    [super viewWillLayoutSubviews];
+    
+    //zoom the image to fill up the view
+    if (self.imageView.image) [self drawImage];
+}
+
+- (void)viewDidUnload
+{
+    [self setScrollView:nil];
+    [self setToolbar:nil];
+    [self setSpinner:nil];
+    [self setToolBarTitle:nil];
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
+}
+
+#pragma mark - splitViewControllerDelegate
 
 -(id <splitViewBarButtonItemPresenter> )splitViewBarButtonItemPresenter{
     id detailVC = [self.splitViewController.viewControllers lastObject];
@@ -131,7 +197,7 @@
     [pc setPopoverContentSize:CGSizeMake(480.0f, 320.0f) animated:NO];
     //tell the detail view to put this button up
     [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = barButtonItem;
-
+    
 }
 
 -(void) splitViewController:(UISplitViewController *)svc
@@ -144,44 +210,11 @@
 }
 
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+#pragma mark - scrollViewDelegate
+-(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+    return self.imageView;
 }
 
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    self.splitViewController.delegate = self;
-    [self refreshView];
-}
-
--(void) viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
-    [self refreshView];
-}
-
--(void) viewWillLayoutSubviews{
-    [super viewWillLayoutSubviews];
-    if (self.image) [self drawImage];
-}
-
-- (void)viewDidUnload
-{
-    [self setScrollView:nil];
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return YES;
-}
 
 @end
