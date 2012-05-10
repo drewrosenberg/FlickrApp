@@ -12,11 +12,15 @@
 
 @interface TopPlacesTableViewController ()
 @property (nonatomic, strong) NSArray * topPlaces;
+@property (nonatomic, strong) NSDictionary * topCountries;
+@property (nonatomic, strong) NSArray * countryList;
 @end
 
 @implementation TopPlacesTableViewController
 
 @synthesize topPlaces = _topPlaces;
+@synthesize topCountries = _topCountries;
+@synthesize countryList = _countryList;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -27,6 +31,30 @@
     return self;
 }
 
+
+-(void)buildTopCountries{
+    NSMutableDictionary * mutableCountries = [NSMutableDictionary dictionary];
+    for (NSDictionary * placeRecord in self.topPlaces){
+        NSString * place = [placeRecord objectForKey:FLICKR_PLACE_NAME];
+        
+        //parse the country from the place string
+        NSString * country = 
+                [place substringFromIndex:
+                    [place rangeOfString:@"," options:NSBackwardsSearch].location+2];
+        //add the country if it is new
+        if (![mutableCountries objectForKey:country]){
+            NSLog(@"country = %@", country);
+            [mutableCountries setObject:[NSMutableArray array] forKey:country];
+        }
+        
+        //add the place Record to the country
+        [[mutableCountries objectForKey:country] addObject:placeRecord];
+    }
+    
+    //write the final result to topCountries
+    self.countryList = [[mutableCountries allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    self.topCountries = mutableCountries;
+}
 
 -( NSArray *)sortFlickrRecordsByField:(id)field{
 
@@ -60,7 +88,9 @@
             
             //sort alphabetically by place
             self.topPlaces = [self sortFlickrRecordsByField:FLICKR_PLACE_NAME];
+            [self buildTopCountries];
             self.navigationItem.rightBarButtonItem = refreshButton;
+                        
             [self.tableView reloadData];
         });
     });
@@ -97,15 +127,25 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSIndexPath * indexPath = [self.tableView indexPathForCell:sender];
-    [segue.destinationViewController setLocation:[self.topPlaces objectAtIndex:indexPath.row ]];
+    
+    [segue.destinationViewController setLocation:[[self.topCountries objectForKey:[self.countryList objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row ]];
 }
 
 #pragma mark - UITableViewDataSource
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return [self.topCountries count];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [self.topPlaces count];
+    //return the number of records for key
+    return [[self.topCountries objectForKey:[self.countryList objectAtIndex:section]] count];
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+
+    return [self.countryList objectAtIndex:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -114,7 +154,8 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     // Configure the cell...
-    NSDictionary * photoDetails = [self.topPlaces objectAtIndex:indexPath.row];
+    NSDictionary * photoDetails = [[self.topCountries objectForKey:[self.countryList objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    
     NSString * location = [photoDetails objectForKey:FLICKR_PLACE_NAME];
     
     cell.textLabel.text = [location substringToIndex:[location rangeOfString:@","].location];
