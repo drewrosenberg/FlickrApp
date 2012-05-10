@@ -62,28 +62,28 @@
 # pragma mark - FlickrImageViewController methods
 
 -(void)drawImage{
-
-
     //reset zoom to 1
     self.scrollView.zoomScale = 1;
 
-    //set imageView frame
-    self.imageView.frame = CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
-    
     //set contentsize
     self.scrollView.contentSize = self.imageView.image.size;
 
+    //set imageView frame
+    self.imageView.frame = CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
+
+    
     //get size of image and view
     CGSize imageSize = self.imageView.image.size;
     CGSize viewSize = self.scrollView.bounds.size;
-    
-    //set default zoom scale
-    self.scrollView.zoomScale = MAX(viewSize.height/imageSize.height, viewSize.width/imageSize.width);   
     
     //set minimum zoom scale
     self.scrollView.minimumZoomScale =
     MIN(viewSize.height/imageSize.height, 
         viewSize.width/imageSize.width);
+    
+    //set default zoom scale
+    self.scrollView.zoomScale = MAX(viewSize.height/imageSize.height, viewSize.width/imageSize.width);   
+
     
     //log info
     NSLog(@"======");

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="dKw-Ms-R9j">
     <dependencies>
+        <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
@@ -69,7 +70,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="5Gi-cV-eyt" kind="push" identifier="Get Recent Photos for Location" id="toU-8M-3rL"/>
+                        <segue destination="5Gi-cV-eyt" kind="push" identifier="Get Recent Photos for Location" id="cyq-C8-o1t"/>
                     </connections>
                 </tableViewController>
             </objects>
@@ -81,7 +82,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dGL-GC-Jjf" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="5Gi-cV-eyt" customClass="PhotosFromLocationTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Oen-0O-ayY">
-                        <rect key="frame" x="0.0" y="64" width="320" height="744"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="739"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -102,13 +103,15 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="hRr-1x-hT9">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="5Lj-ia-UXF">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="TGS-qY-bum">
                             <connections>
-                                <action selector="refresh:" destination="5Gi-cV-eyt" id="pdo-pH-EsK"/>
+                                <action selector="refresh:" destination="5Gi-cV-eyt" id="uDU-sw-Yrp"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="refreshButton" destination="TGS-qY-bum" id="lbF-Tn-Qxd"/>
+                    </connections>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1242" y="-1858"/>

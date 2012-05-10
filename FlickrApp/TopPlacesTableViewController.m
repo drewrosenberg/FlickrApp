@@ -72,7 +72,11 @@
     self.title = @"Top Places";
 }
 - (IBAction)refresh:(id)sender {
-    [self.tableView reloadData];
+    //reset the table if refresh button was pressed
+    if ([sender isKindOfClass:[UIBarButtonItem class]]){
+        self.topPlaces = nil;
+        [self.tableView reloadData];
+    }
     
     UIActivityIndicatorView * spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActionSheetStyleBlackTranslucent];
     [spinner startAnimating];
