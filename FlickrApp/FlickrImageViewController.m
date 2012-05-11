@@ -124,7 +124,7 @@
             self.imageView.image = [UIImage imageWithData:imageData];
 
             //draw the image
-            [self drawImage];
+            if (self.imageView.image) [self drawImage];
         });
     });
     dispatch_release(imageDownloadQueue);
@@ -144,7 +144,7 @@
 }
 
 -(void) viewWillAppear:(BOOL)animated{
-   // [super viewWillAppear:YES];
+    [super viewWillAppear:YES];
     [self refreshView:self];
 }
 
