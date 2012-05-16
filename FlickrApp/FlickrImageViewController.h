@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FlickrImageFileHandler.h"
 
 @protocol splitViewBarButtonItemPresenter <NSObject>
 @property (nonatomic, weak) UIBarButtonItem * splitViewBarButtonItem;

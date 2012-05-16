@@ -25,6 +25,7 @@
 		468B95661547D0C800920A81 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 468B95641547D0C800920A81 /* MainStoryboard_iPhone.storyboard */; };
 		468B95691547D0C800920A81 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 468B95671547D0C800920A81 /* MainStoryboard_iPad.storyboard */; };
 		468B95741547D11200920A81 /* FlickrFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 468B95731547D11200920A81 /* FlickrFetcher.m */; };
+		46929A2615637155005281C5 /* FlickrImageFileHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 46929A2515637155005281C5 /* FlickrImageFileHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,8 @@
 		468B95681547D0C800920A81 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		468B95721547D11200920A81 /* FlickrFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrFetcher.h; sourceTree = "<group>"; };
 		468B95731547D11200920A81 /* FlickrFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrFetcher.m; sourceTree = "<group>"; };
+		46929A2415637155005281C5 /* FlickrImageFileHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlickrImageFileHandler.h; path = ../FlickrImageFileHandler.h; sourceTree = "<group>"; };
+		46929A2515637155005281C5 /* FlickrImageFileHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlickrImageFileHandler.m; path = ../FlickrImageFileHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +112,8 @@
 		468B95581547D0C800920A81 /* FlickrApp */ = {
 			isa = PBXGroup;
 			children = (
+				46929A2415637155005281C5 /* FlickrImageFileHandler.h */,
+				46929A2515637155005281C5 /* FlickrImageFileHandler.m */,
 				4688AF53155CCF64006C5C61 /* mapViewController.h */,
 				4688AF54155CCF64006C5C61 /* mapViewController.m */,
 				468B95641547D0C800920A81 /* MainStoryboard_iPhone.storyboard */,
@@ -220,6 +225,7 @@
 				468B241D155100DE00A078AA /* RecentPhotosTableViewController.m in Sources */,
 				4688AF55155CCF64006C5C61 /* mapViewController.m in Sources */,
 				4688AF59155CD165006C5C61 /* FlickrPhotoAnnotation.m in Sources */,
+				46929A2615637155005281C5 /* FlickrImageFileHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

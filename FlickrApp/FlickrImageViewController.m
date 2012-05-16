@@ -7,7 +7,6 @@
 //
 
 #import "FlickrImageViewController.h"
-#import "FlickrFetcher.h"
 
 @interface FlickrImageViewController () 
                     <UIScrollViewDelegate, 
@@ -85,15 +84,6 @@
     self.scrollView.zoomScale = MAX(viewSize.height/imageSize.height, viewSize.width/imageSize.width);   
 }
 
--(NSData *) getImageData:(NSURL *)imageURL{
-    NSData * imageData = [[NSData alloc] init];
-    if (imageURL){
-        imageData = [NSData dataWithContentsOfURL:imageURL];
-    }else{
-        self.title = @"NO IMAGE AVAILABLE";
-    }
-    return imageData;
-}
 - (IBAction)refreshView:(id)sender {
     
     //turn spinner on and clear image
@@ -104,34 +94,8 @@
     dispatch_queue_t imageDownloadQueue = dispatch_queue_create("image downloader", NULL);
     dispatch_async(imageDownloadQueue, ^{  
         
-        //Get the internet URL
-        NSURL * imageURL = [FlickrFetcher urlForPhoto:self.imageRecord format:FlickrPhotoFormatLarge];
-        
-        //set the path of the local URL
-        NSURL * localImageURL = [[[NSFileManager defaultManager] URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
-        NSLog(@"size of %@ is %@", localImageURL ,[[NSFileManager defaultManager] attributesOfItemAtPath:[localImageURL path] error:nil]);
-        localImageURL = [localImageURL URLByAppendingPathComponent:[[self.imageRecord objectForKey:FLICKR_PHOTO_ID] stringByAppendingString:@".jpg"]];
-        NSLog(@"size of %@ is %@", localImageURL ,[[[NSFileManager defaultManager] attributesOfItemAtPath:[localImageURL path] error:nil] objectForKey:NSFileSize]);
-
-        //get the image
-        NSData * imageData = [[NSData alloc] init ];
-
-        //if the file does not exist locally, download it
-        if (![[NSFileManager defaultManager] fileExistsAtPath:[localImageURL path]]){
-            //get the Image
-            imageData = [self getImageData:imageURL];
-            
-            //if the cache size is > 10MB, delete the oldest photo
-            
-            //cache the image
-            [imageData writeToURL:localImageURL atomically:YES];
-        }
-        
-        //if the file exists locally, use it
-        else {
-            NSLog(@"file exists!");
-            imageData = [self getImageData:localImageURL]; 
-        }
+        NSData * imageData = [FlickrImageFileHandler getImageData:self.imageRecord];
+        self.title = [self.imageRecord objectForKey:@"title"];
 
         //switch to main queue
         dispatch_async(dispatch_get_main_queue(), ^{            
