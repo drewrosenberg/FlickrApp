@@ -65,14 +65,9 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Root View Controller" id="cfe-qw-jMe">
-                        <barButtonItem key="leftBarButtonItem" title="MAP" id="g52-ee-1pc">
+                        <barButtonItem key="rightBarButtonItem" title="MAP" id="g52-ee-1pc">
                             <connections>
                                 <segue destination="PSH-cc-uL0" kind="push" identifier="map locations" id="9pC-Nn-8rJ"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="hmM-5H-7T6">
-                            <connections>
-                                <action selector="refresh:" destination="jnE-0O-dVj" id="Zdw-f2-SbU"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -126,19 +121,14 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="hRr-1x-hT9">
-                        <barButtonItem key="leftBarButtonItem" title="MAP" id="dsJ-Rn-moo">
+                        <barButtonItem key="rightBarButtonItem" title="MAP" id="uil-Tg-430">
                             <connections>
-                                <segue destination="PSH-cc-uL0" kind="push" identifier="map photo list" id="gsb-KD-uXh"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="TGS-qY-bum">
-                            <connections>
-                                <action selector="refresh:" destination="5Gi-cV-eyt" id="uDU-sw-Yrp"/>
+                                <segue destination="PSH-cc-uL0" kind="push" identifier="map photo list" id="EmS-pc-fxa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="refreshButton" destination="TGS-qY-bum" id="lbF-Tn-Qxd"/>
+                        <outlet property="mapButton" destination="uil-Tg-430" id="EdQ-hC-Ylg"/>
                     </connections>
                 </tableViewController>
             </objects>
@@ -183,12 +173,15 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Root View Controller" id="9uq-0t-JCf">
-                        <barButtonItem key="leftBarButtonItem" title="MAP" id="mPd-Y8-Dwd">
+                        <barButtonItem key="rightBarButtonItem" title="MAP" id="mPd-Y8-Dwd">
                             <connections>
                                 <segue destination="PSH-cc-uL0" kind="push" identifier="map photo list" id="0z2-Vi-kkI"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mapButton" destination="mPd-Y8-Dwd" id="yM7-Hy-7jy"/>
+                    </connections>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1292" y="-404"/>
@@ -331,9 +324,47 @@
             <point key="canvasLocation" x="-580" y="319"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="FlickrImageViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrImageViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="toolBarTitle" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="PhotoListTableController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoListTableController.h"/>
+            <relationships>
+                <relationship kind="action" name="refresh:"/>
+                <relationship kind="outlet" name="mapButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="PhotosFromLocationTableViewController" superclassName="PhotoListTableController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotosFromLocationTableViewController.h"/>
+        </class>
+        <class className="RecentPhotosTableViewController" superclassName="PhotoListTableController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentPhotosTableViewController.h"/>
+        </class>
+        <class className="TopPlacesTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TopPlacesTableViewController.h"/>
+        </class>
+        <class className="mapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/mapViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="0z2-Vi-kkI"/>
+        <segue reference="cyq-C8-o1t"/>
+    </inferredMetricsTieBreakers>
 </document>

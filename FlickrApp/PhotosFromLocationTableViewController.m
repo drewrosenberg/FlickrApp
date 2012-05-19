@@ -9,7 +9,7 @@
 #import "PhotosFromLocationTableViewController.h"
 
 @implementation PhotosFromLocationTableViewController
-@synthesize refreshButton = _refreshButton;
+@synthesize mapButton = _mapButton;
 @synthesize location = _location;
 
 - (void) updatePhotosAndTitle{
@@ -24,7 +24,7 @@
 
 
 - (void)viewDidUnload {
-    [self setRefreshButton:nil];
+    [self setMapButton:nil];
     [super viewDidUnload];
 }
 @end
