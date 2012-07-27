@@ -266,11 +266,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="kxm-4N-UPF" id="jra-7M-bQQ"/>
-                        <segue destination="5Gi-cV-eyt" kind="push" identifier="Show Image List for Location" id="6re-Km-f35"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1932" y="-1107"/>
+            <point key="canvasLocation" x="1812" y="-1007"/>
         </scene>
         <!--Flickr Image View Controller-->
         <scene sceneID="6pK-rx-X0v">
@@ -331,9 +330,46 @@
             <point key="canvasLocation" x="-580" y="319"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="FlickrImageViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrImageViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="toolBarTitle" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="PhotoListTableController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoListTableController.h"/>
+            <relationships>
+                <relationship kind="action" name="refresh:"/>
+                <relationship kind="outlet" name="refreshButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="PhotosFromLocationTableViewController" superclassName="PhotoListTableController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotosFromLocationTableViewController.h"/>
+        </class>
+        <class className="RecentPhotosTableViewController" superclassName="PhotoListTableController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentPhotosTableViewController.h"/>
+        </class>
+        <class className="TopPlacesTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TopPlacesTableViewController.h"/>
+        </class>
+        <class className="mapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/mapViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="9pC-Nn-8rJ"/>
+    </inferredMetricsTieBreakers>
 </document>
