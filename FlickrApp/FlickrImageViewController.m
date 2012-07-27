@@ -83,62 +83,46 @@
     
     //set default zoom scale
     self.scrollView.zoomScale = MAX(viewSize.height/imageSize.height, viewSize.width/imageSize.width);   
-}
 
--(NSData *) getImageData:(NSURL *)imageURL{
-    NSData * imageData = [[NSData alloc] init];
-    if (imageURL){
-        imageData = [NSData dataWithContentsOfURL:imageURL];
-    }else{
-        self.title = @"NO IMAGE AVAILABLE";
-    }
-    return imageData;
+    
+    //log info
+    NSLog(@"======");
+    NSLog(@"imageWidth      = %f", imageSize.width);
+    NSLog(@"imageViewWidth  = %f", viewSize.width);
+    NSLog(@"imageHeight     = %f", imageSize.height);
+    NSLog(@"imageViewHeight = %f", viewSize.height);
+    NSLog(@"MinZoom         = %f", self.scrollView.minimumZoomScale);
+    NSLog(@"zoomscale       = %f", self.scrollView.zoomScale);
+    NSLog(@"MaxZoom         = %f", self.scrollView.maximumZoomScale);
+    NSLog(@"======");
+
 }
 - (IBAction)refreshView:(id)sender {
-    
     //turn spinner on and clear image
     self.spinnerStatus = YES;
     self.imageView.image = nil;
     
-    //start image download thread
     dispatch_queue_t imageDownloadQueue = dispatch_queue_create("image downloader", NULL);
     dispatch_async(imageDownloadQueue, ^{  
-        
-        //Get the internet URL
         NSURL * imageURL = [FlickrFetcher urlForPhoto:self.imageRecord format:FlickrPhotoFormatLarge];
-        
-        //set the path of the local URL
-        NSURL * localImageURL = [[[NSFileManager defaultManager] URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
-        NSLog(@"size of %@ is %@", localImageURL ,[[NSFileManager defaultManager] attributesOfItemAtPath:[localImageURL path] error:nil]);
-        localImageURL = [localImageURL URLByAppendingPathComponent:[[self.imageRecord objectForKey:FLICKR_PHOTO_ID] stringByAppendingString:@".jpg"]];
-        NSLog(@"size of %@ is %@", localImageURL ,[[[NSFileManager defaultManager] attributesOfItemAtPath:[localImageURL path] error:nil] objectForKey:NSFileSize]);
-
-        //get the image
-        NSData * imageData = [[NSData alloc] init ];
-
-        //if the file does not exist locally, download it
-        if (![[NSFileManager defaultManager] fileExistsAtPath:[localImageURL path]]){
-            //get the Image
-            imageData = [self getImageData:imageURL];
-            
-            //if the cache size is > 10MB, delete the oldest photo
-            
-            //cache the image
-            [imageData writeToURL:localImageURL atomically:YES];
+        NSLog(@"imageURL at segue = %@", imageURL);
+        NSData * imageData = [[NSData alloc] init];
+        NSLog(@"imageURL in imageDownloadQueue = %@",imageURL );
+        if (imageURL){
+            imageData = [NSData dataWithContentsOfURL:imageURL];
+        }else{
+            self.title = @"NO IMAGE AVAILABLE";
         }
         
-        //if the file exists locally, use it
-        else {
-            NSLog(@"file exists!");
-            imageData = [self getImageData:localImageURL]; 
-        }
-
-        //switch to main queue
-        dispatch_async(dispatch_get_main_queue(), ^{            
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"imageURL in MainQueue = %@",imageURL );
+            
             //turn spinner off
             self.spinnerStatus = NO;
+
             //save image
             self.imageView.image = [UIImage imageWithData:imageData];
+
             //draw the image
             if (self.imageView.image) [self drawImage];
         });
