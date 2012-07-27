@@ -9,8 +9,6 @@
 #import "TopPlacesTableViewController.h"
 #import "FlickrFetcher.h"
 #import "PhotosFromLocationTableViewController.h"
-#import "FlickrLocationAnnotation.h"
-#import "mapViewController.h"
 
 @interface TopPlacesTableViewController ()
 @property (nonatomic, strong) NSArray * topPlaces;
@@ -134,18 +132,7 @@
 {
     NSIndexPath * indexPath = [self.tableView indexPathForCell:sender];
     
-    if ([segue.identifier isEqualToString:@"Get Recent Photos for Location"]){
-        [segue.destinationViewController setLocation:[[self.topCountries objectForKey:[self.countryList objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row ]];
-    
-    //map segue
-    }else if ([segue.identifier isEqualToString:@"map locations"]){
-        NSArray * annotationArray = [[NSArray alloc] init];
-        for (NSDictionary * location in self.topPlaces){
-            annotationArray = [annotationArray arrayByAddingObject:[FlickrLocationAnnotation annotationForLocation:location]];
-        }
-        [segue.destinationViewController setAnnotations:annotationArray];
-    }
-
+    [segue.destinationViewController setLocation:[[self.topCountries objectForKey:[self.countryList objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row ]];
 }
 
 #pragma mark - UITableViewDataSource

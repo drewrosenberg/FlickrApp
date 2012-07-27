@@ -8,8 +8,6 @@
 
 #import "PhotoListTableController.h"
 #import "FlickrImageViewController.h"
-#import "FlickrPhotoAnnotation.h"
-#import "mapViewController.h"
 
 #define USER_DEFAULTS_MAX_PHOTOS 20
 
@@ -172,20 +170,10 @@
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     NSIndexPath * indexPath = [self.tableView indexPathForCell:sender];
-
-    //image segue (iphone only)
     if ([segue.identifier isEqualToString:@"image"]){
         NSDictionary * photo = [self.photoList objectAtIndex:indexPath.row];
         [segue.destinationViewController setTitle:[[self.photoList objectAtIndex:indexPath.row] objectForKey:FLICKR_PHOTO_TITLE]];
         [segue.destinationViewController setImageRecord:photo];
-
-    //map segue
-    }else if ([segue.identifier isEqualToString:@"map photo list"]){
-        NSArray * annotationArray = [[NSArray alloc] init];
-        for (NSDictionary * photo in self.photoList){
-            annotationArray = [annotationArray arrayByAddingObject:[FlickrPhotoAnnotation annotationForPhoto:photo]];
-        }
-        [segue.destinationViewController setAnnotations:annotationArray];
     }
 }
 
