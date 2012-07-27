@@ -20,13 +20,7 @@
 }
 
 -(NSString *)title{
-    NSString * title = [self.photo objectForKey:FLICKR_PHOTO_TITLE];
-    if (title.length > 0){
-        return title;
-    }
-    else {
-        return @"no title";
-    }
+    return [self.photo objectForKey:FLICKR_PHOTO_TITLE];
 }
 
 -(NSString *)subtitle{

@@ -17,7 +17,7 @@
 @end
 
 @implementation PhotoListTableController
-@synthesize mapButton = _mapButton;
+@synthesize refreshButton = _refreshButton;
 @synthesize photoList = _photoList;
 
 
@@ -60,7 +60,7 @@
         [self updatePhotosAndTitle];
         dispatch_async(dispatch_get_main_queue(), ^{
             //NSLog(@"photos list =%@", self.photoList);
-            self.navigationItem.rightBarButtonItem = self.mapButton;
+            self.navigationItem.rightBarButtonItem = self.refreshButton;
             [self.tableView reloadData];
         });
     });
@@ -86,7 +86,7 @@
 
 - (void)viewDidUnload
 {
-    [self setMapButton:nil];
+    [self setRefreshButton:nil];
     [super viewDidUnload];
 }
 
@@ -115,11 +115,10 @@
     NSString * title = [photoDetails objectForKey:FLICKR_PHOTO_TITLE];
     NSString * description = [photoDetails objectForKey:FLICKR_PHOTO_DESCRIPTION];
     
-
-    if (title.length > 0) {
+    if (title) {
         cell.textLabel.text = title;
         cell.detailTextLabel.text = description;
-    }else if (description.length > 0){
+    }else if (description){
         cell.textLabel.text = description;
         cell.detailTextLabel.text = @"no title";
     }

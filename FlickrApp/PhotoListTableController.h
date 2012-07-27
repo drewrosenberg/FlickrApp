@@ -14,7 +14,7 @@
 
 @interface PhotoListTableController : UITableViewController
     <UITableViewDataSource, UITableViewDelegate, UISplitViewControllerDelegate>
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *mapButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *refreshButton;
 
 
 @property (nonatomic, strong) NSArray * photoList;
