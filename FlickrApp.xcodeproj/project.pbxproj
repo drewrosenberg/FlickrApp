@@ -133,8 +133,6 @@
 				468B24151550FC1C00A078AA /* PhotosFromLocationTableViewController.m */,
 				468AB5C11549E705005CE17C /* FlickrImageViewController.h */,
 				468AB5C21549E705005CE17C /* FlickrImageViewController.m */,
-				46929A2415637155005281C5 /* FlickrImageFileHandler.h */,
-				46929A2515637155005281C5 /* FlickrImageFileHandler.m */,
 				468B95591547D0C800920A81 /* Supporting Files */,
 			);
 			path = FlickrApp;
@@ -143,6 +141,8 @@
 		468B95591547D0C800920A81 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				46929A2415637155005281C5 /* FlickrImageFileHandler.h */,
+				46929A2515637155005281C5 /* FlickrImageFileHandler.m */,
 				468B95721547D11200920A81 /* FlickrFetcher.h */,
 				468B95731547D11200920A81 /* FlickrFetcher.m */,
 				463869D01547D24E00C6B13F /* FlickrAPIKey.h */,

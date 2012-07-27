@@ -34,5 +34,4 @@
     
     return coordinate;
 }
-
 @end
