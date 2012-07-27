@@ -83,6 +83,8 @@
 		468B95431547D0C800920A81 = {
 			isa = PBXGroup;
 			children = (
+				4688AF5C155CD6E5006C5C61 /* CoreLocation.framework */,
+				4688AF5A155CD6DE006C5C61 /* MapKit.framework */,
 				468B95581547D0C800920A81 /* FlickrApp */,
 				468B95511547D0C800920A81 /* Frameworks */,
 				468B954F1547D0C800920A81 /* Products */,
@@ -100,8 +102,6 @@
 		468B95511547D0C800920A81 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4688AF5C155CD6E5006C5C61 /* CoreLocation.framework */,
-				4688AF5A155CD6DE006C5C61 /* MapKit.framework */,
 				468B95521547D0C800920A81 /* UIKit.framework */,
 				468B95541547D0C800920A81 /* Foundation.framework */,
 				468B95561547D0C800920A81 /* CoreGraphics.framework */,
@@ -114,14 +114,14 @@
 			children = (
 				46929A2415637155005281C5 /* FlickrImageFileHandler.h */,
 				46929A2515637155005281C5 /* FlickrImageFileHandler.m */,
-				4688AF57155CD165006C5C61 /* FlickrPhotoAnnotation.h */,
-				4688AF58155CD165006C5C61 /* FlickrPhotoAnnotation.m */,
 				4688AF53155CCF64006C5C61 /* mapViewController.h */,
 				4688AF54155CCF64006C5C61 /* mapViewController.m */,
 				468B95641547D0C800920A81 /* MainStoryboard_iPhone.storyboard */,
 				468B95671547D0C800920A81 /* MainStoryboard_iPad.storyboard */,
 				467B994C154FA9BC00BB8C55 /* PhotoListTableController.h */,
 				467B994D154FA9BC00BB8C55 /* PhotoListTableController.m */,
+				4688AF57155CD165006C5C61 /* FlickrPhotoAnnotation.h */,
+				4688AF58155CD165006C5C61 /* FlickrPhotoAnnotation.m */,
 				468B241B155100DE00A078AA /* RecentPhotosTableViewController.h */,
 				468B241C155100DE00A078AA /* RecentPhotosTableViewController.m */,
 				463869D51547D47000C6B13F /* TopPlacesTableViewController.h */,

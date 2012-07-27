@@ -19,20 +19,23 @@
     int directorySize = 0;
     NSString * oldestFileName = nil;
     NSDate * oldestFileDate = [NSDate distantFuture];
-    
     //get the oldest file and add up total disk usage of directory
     for (NSString * file in fileList){
-        if (file){
-            NSDictionary * fileAttributes = [cacheFileManager attributesOfItemAtPath:[[url URLByAppendingPathComponent:file] path] error:nil];
-            NSLog(@"%@ was created on %@", file, [fileAttributes objectForKey:NSFileCreationDate]);
-            int fileSize = [[fileAttributes objectForKey:NSFileSize] intValue];
-            directorySize += fileSize;
-                
-            if (([[fileAttributes objectForKey:NSFileCreationDate] timeIntervalSinceDate:oldestFileDate])<0){
-                oldestFileName = file;
-                oldestFileDate = [fileAttributes objectForKey:NSFileCreationDate];
-            }
+        NSDictionary * fileAttributes = [cacheFileManager attributesOfItemAtPath:[[url URLByAppendingPathComponent:file] path] error:nil];
+        NSLog(@"%@ was created on %@", file, [fileAttributes objectForKey:NSFileCreationDate]);
+        int fileSize = [[fileAttributes objectForKey:NSFileSize] intValue];
+        directorySize += fileSize;
+        
+//        NSLog(@"%@ size is %i",file, fileSize);
+//        NSLog(@"total directory size is %i", directorySize);
+        
+        if (([[fileAttributes objectForKey:NSFileCreationDate] timeIntervalSinceDate:oldestFileDate])<0){
+   //         NSLog(@"previous oldest file date was %@", oldestFileDate);
+            oldestFileName = file;
+            oldestFileDate = [fileAttributes objectForKey:NSFileCreationDate];
+  //          NSLog(@"oldest file %@ was created at %@",oldestFileName, oldestFileDate);
         }
+        
     }
 
     //if directory size is over the limit, remove oldest file
@@ -60,13 +63,8 @@
     //set the path of the local cache directory
     NSURL * cachDirectoryURL = [[cacheFileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
     
-    NSURL * localImageURL = [[NSURL alloc] init ];
     //set the URL of the local file
-    if (imageRecord){
-        localImageURL = [cachDirectoryURL URLByAppendingPathComponent:[[imageRecord objectForKey:FLICKR_PHOTO_ID] stringByAppendingString:@".jpg"]];
-    }else{
-        localImageURL = nil;
-    }
+    NSURL * localImageURL = [cachDirectoryURL URLByAppendingPathComponent:[[imageRecord objectForKey:FLICKR_PHOTO_ID] stringByAppendingString:@".jpg"]];
     
     //get the image
     NSData * imageData = [[NSData alloc] init ];
