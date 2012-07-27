@@ -8,12 +8,10 @@
 
 #import "PhotoListTableController.h"
 #import "FlickrImageViewController.h"
-#import "mapViewController.h"
-#import "FlickrPhotoAnnotation.h"
 
 #define USER_DEFAULTS_MAX_PHOTOS 20
 
-@interface PhotoListTableController () <mapViewControllerDelegate>
+@interface PhotoListTableController ()
 @end
 
 @implementation PhotoListTableController
@@ -24,38 +22,11 @@
 ///addToUserDefaults, location stuff in viewDidLoad, and query in refresh are the only 3 things that keep this from being generic
 ///can we call these out in separate functions and then push them to an inheriting class?
 
-#pragma mark - map stuff
 
--(NSArray *)annotations{
-    NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[self.photoList count]];
-    for (NSDictionary * photo in self.photoList) {
-        [annotations addObject:[FlickrPhotoAnnotation annotationForPhoto:photo]];
-    }
-    return annotations;
-}
-
--(void)updateSplitViewDetail{
-    id detail = [self.splitViewController.viewControllers lastObject];
-    if ([detail isKindOfClass:[mapViewController class]]){
-        mapViewController *mapVC = (mapViewController*)detail;
-        mapVC.annotations = self.annotations;
-        mapVC.delegate = self;
-    }
-}
-
--(UIImage*)mapViewController:(mapViewController *)sender imageForAnnotation:(id<MKAnnotation>)annotation{
-    FlickrPhotoAnnotation * fpa = (FlickrPhotoAnnotation *)annotation;
-    NSURL *url = [FlickrFetcher urlForPhoto:fpa.photo format:FlickrPhotoFormatSquare];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    return data ? [UIImage imageWithData:data] : nil;
-}
-
-#pragma mark - Setters
 
 -(void)setPhotoList:(NSArray *)photoList{
     if (_photoList != photoList) {
         _photoList = photoList;
-        [self updateSplitViewDetail];
         if (self.tableView.window) [self.tableView reloadData];
     }
 }
@@ -64,8 +35,6 @@
     self.title = @"Placeholder";
     self.photoList = nil;
 }
-
-#pragma mark - TableView Data Fetcher
 
 - (IBAction)refresh:(id)sender {
     //reset the table if the reset button was pressed 
