@@ -37,12 +37,7 @@
 }
 
 - (IBAction)refresh:(id)sender {
-    //reset the table if the reset button was pressed 
-    if ([sender isKindOfClass:[UIBarButtonItem class]]){
-        self.photoList = nil;
-        [self.tableView reloadData];
-    }
-    
+ 
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
     
     dispatch_async(downloadQueue, ^{  
